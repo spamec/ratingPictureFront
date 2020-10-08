@@ -1,0 +1,75 @@
+<div class="product-list-inner">
+  <div class="product-list-inner__list">
+    <div class="product-list-inner__list__item">
+      <div
+        class="product-list-inner__list__item__ceil product-list-inner__list__item__ceil__header product-list-inner__list__item__ceil__number">
+        #
+      </div>
+      <div
+        class="product-list-inner__list__item__ceil product-list-inner__list__item__ceil__header product-list-inner__list__item__ceil__name">
+        Name
+      </div>
+      <!--      <div class="product-list-inner__list__item__ceil product-list-inner__list__item__ceil__header product-list-inner__list__item__ceil__category">Категория</div>-->
+      <div
+        class="product-list-inner__list__item__ceil product-list-inner__list__item__ceil__header product-list-inner__list__item__ceil__image">
+        Image
+      </div>
+      <div
+        class="product-list-inner__list__item__ceil product-list-inner__list__item__ceil__header product-list-inner__list__item__ceil__rating">
+
+      </div>
+    </div>
+    <ng-container *ngIf="productListRating$|async">
+      <ng-container *ngIf="productList$|async">
+        <div class="product-list-inner__list__item" *ngFor="let product of productList">
+          <div
+            class="product-list-inner__list__item__ceil product-list-inner__list__item__ceil__number">{{product.id}}</div>
+          <div
+            class="product-list-inner__list__item__ceil product-list-inner__list__item__ceil__name">
+            <div class="product-list-inner__list__item__ceil__name__value">{{product.name}}</div>
+          </div>
+          <!--<div
+            class="product-list-inner__list__item__ceil product-list-inner__list__item__ceil__category">{{product.categoryId}}</div>-->
+          <div class="product-list-inner__list__item__ceil product-list-inner__list__item__ceil__image">
+            <div class="product-list-inner__list__item__ceil__image__wrapper">
+              <img (contextmenu)="openContextMenu($event, product)" src="{{product.picture}}" alt="Image of product">
+              <!--                      <img src="{{product.picture}}?{{product.id}}" alt="Image of product">-->
+              <!--https://picsum.photos/800-->
+              <!--https://picsum.photos/seed/picsum/200/300-->
+            </div>
+            <!-- <mat-menu #contextMenu="matMenu">
+               <div class="mat-menu-inner">
+                 <button mat-stroked-button color="primary"> <span>Сортировать</span></button>
+
+               </div>
+             </mat-menu>-->
+
+          </div>
+          <div
+            class="product-list-inner__list__item__ceil product-list-inner__list__item__ceil__rating">
+
+
+            <button mat-icon-button (click)="postRating(product,product.rating, false)">
+              <mat-icon>thumb_down</mat-icon>
+            </button>
+            <span class="product-list-inner__list__item__ceil__rating__value">{{product.rating|number}}</span>
+            <button mat-icon-button (click)="postRating(product,--product.rating, true)">
+              <mat-icon>thumb_up</mat-icon>
+            </button>
+          </div>
+        </div>
+        <div style="visibility: hidden; position: fixed"
+             [style.left]="contextMenuPosition.x"
+             [style.top]="contextMenuPosition.y"
+             [matMenuTriggerFor]="contextMenu">
+        </div>
+      </ng-container>
+    </ng-container>
+    <mat-menu #contextMenu="matMenu">
+      <ng-template matMenuContent let-product="product">
+        <button mat-menu-item (click)="downloadPicture(product)">Open</button>
+      </ng-template>
+    </mat-menu>
+
+  </div>
+</div>
